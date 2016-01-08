@@ -1,0 +1,30 @@
+<paquet
+	prefix="lier_sites"
+	categorie="navigation"
+	version="0.1.0"
+	etat="dev"
+	compatibilite="[3.0.21;3.0.*]"
+	logo=""
+	documentation=""
+	schema="0.1.0" 
+>
+	<!--
+		Paquet genere le 2016-01-07 17:20:47
+	-->
+
+	<nom>Lier sites</nom>
+
+	<auteur lien='http://vertige.org'>Michel @ Vertige ASBL</auteur>
+
+	<licence>GNU/GPL</licence>
+
+	<necessite nom="sites" />
+	<necessite nom="saisies" />
+
+	<pipeline nom="declarer_tables_interfaces" inclure="base/lier_sites.php" />
+	<pipeline nom="declarer_tables_objets_sql" inclure="base/lier_sites.php" />
+	<pipeline nom="declarer_tables_auxiliaires" inclure="base/lier_sites.php" />
+
+	<pipeline nom="affiche_droite" inclure="lier_sites_pipelines.php" />
+
+</paquet>

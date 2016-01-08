@@ -1,0 +1,24 @@
+[(#SET{_MAX_SITES_LISTE,[(#VAL{_MAX_SITES_LISTE}|defined|?{[(#VAL{_MAX_SITES_LISTE}|constant)],50})]})]
+#SET{exclus,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}
+
+<ul>
+  <BOUCLE_compte(SYNDIC){id_groupe}{id_syndic !IN #GET{exclus}} />#SET{total,#TOTAL_BOUCLE}<//B_compte>
+  [(#GET{total}|!={0}|et{#AUTORISER{afficherselecteur,sites,#ID_SYNDIC,'',#ARRAY{objet,#ENV{objet},id_objet,#ENV{id_objet},comite,#COMITE,minirezo,#MINIREZO}}})
+
+  <li class="editer associer_syndic [(#UNSEUL|=={oui}|oui)unseul][(#OBLIGATOIRE|=={oui}|oui)obligatoire]">
+	<label for="ajouter_site">#TITRE</label>
+
+	[(#GET{total}|<{#GET{_MAX_SITES_LISTE}}|oui)
+	  [(#UNSEUL|=={oui}|oui)
+	    [(#INCLURE{fond=prive/objets/liste/sites_associer-select-unseul,env,exclus=#GET{exclus}})]
+	  ]
+	  [(#UNSEUL|=={oui}|non)
+	    [(#INCLURE{fond=prive/objets/liste/sites_associer-select,env,exclus=#GET{exclus}})]
+	  ]
+	]
+	[(#GET{total}|<{#GET{_MAX_SITES_LISTE}}|non)
+	  [(#INCLURE{fond=prive/objets/liste/sites_associer-recherche,env,exclus=#GET{exclus},unseul=#UNSEUL})]
+	]
+  </li>
+]
+</ul>

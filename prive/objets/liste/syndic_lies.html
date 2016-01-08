@@ -1,0 +1,46 @@
+[(#SET{defaut_tri,#ARRAY{
+	type,1,
+	num titre,1,
+	titre,1,
+	id_syndic,1,
+	points,-1
+}})
+]
+#SET{selection,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}
+<input type="hidden" name="debutsyndicl" value='#ENV{debutsyndicl,#EVAL{_request("debutsyndicl");}}' />
+<B_liste_syndic>
+#ANCRE_PAGINATION
+<div class="liste-objets liste-objets-lies syndic">
+<table class='spip liste'>
+[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{lier_sites:info_1_site,lier_sites:info_nb_sites}})</strong></caption>]
+	<thead>
+		<tr class='first_row'>
+			<th class='picto' scope='col'></th>
+			<th class='titre' scope='col'>[(#TRI{titre,<:info_titre:>,ajax})]</th>
+			<th class='action' scope='col'>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_syndic(SYNDIC){id_syndic IN #GET{selection}}{where?}{tri #ENV{par,id_syndic},#GET{defaut_tri}}{par multi titre}{pagination #ENV{nb,10} syndicl}>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][(#ID_SYNDIC|=={#ENV{id_lien_ajoute}}|oui)append]">
+			<td class='picto'>[(#VAL|puce_statut{syndic,#ID_SYNDIC})]</td>
+			<td class='titre principale'>
+			  [(#LOGO_SYNDIC|image_reduire{20,20})]
+			  <a href="[(#ID_SYNDIC|generer_url_entite{syndic})]"
+				 title="<:info_numero_abbreviation|attribut_html:> #ID_SYNDIC">
+				[(#RANG). ]#TITRE
+			  </a>
+			</td>
+			<td class='action'><button type="submit" class="button link delete" name="supprimer_lien[syndic-#ID_SYNDIC-#OBJET-#ID_OBJET]" value="X"><:lier_sites:info_retirer_site:> [(#CHEMIN_IMAGE{supprimer-12.png}|balise_img{'X'})]</button></td>
+		</tr>
+	</BOUCLE_liste_syndic>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+[(#GRAND_TOTAL|>{3}|oui)<div class="action"><button type="submit" class="button link" name="supprimer_lien#EVAL{chr(91)}syndic-*-#OBJET-#ID_OBJET#EVAL{chr(93)}" value="X"><:lier_sites:info_retirer_sites:> [(#CHEMIN_IMAGE{supprimer-12.png}|balise_img{'X'})]</button></div>]
+</div>
+</B_liste_syndic>
+<div class="liste-objets liste-objets-lies syndics caption-wrap">
+<strong class="caption">[(#ENV*{titre,<:lier_sites:info_aucun_site:>})]</strong>
+</div>
+<//B_liste_syndic>
